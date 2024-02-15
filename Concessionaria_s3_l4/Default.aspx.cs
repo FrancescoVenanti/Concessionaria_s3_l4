@@ -14,10 +14,14 @@ namespace Concessionaria_s3_l4
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            accessori.Items.Clear();
-            getAuto();
-
-            getAccessori();
+            //popola la pagina solo la prima volta che viene caricata
+            if (!IsPostBack)
+            {
+                accessori.Items.Clear();
+                getAuto();
+                getAccessori();
+            }
+            
 
 
         }
@@ -73,6 +77,7 @@ namespace Concessionaria_s3_l4
 
                 while (reader.Read())
                 {
+                    
                     int ID_Optional = reader.GetInt32(0);
                     string Nome = reader.GetString(1);
                     decimal Prezzo = reader.GetDecimal(2);
@@ -100,7 +105,7 @@ namespace Concessionaria_s3_l4
                 if (item.Selected)
                 { optional += decimal.Parse(item.Value); }
             }
-            Preventivo.InnerHtml = (Garanzia + pickedCar + optional).ToString();
+            Preventivo.InnerText = (Garanzia + pickedCar + optional).ToString();
         }
     }
 }
